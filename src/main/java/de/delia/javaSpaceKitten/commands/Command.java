@@ -11,6 +11,9 @@ import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,8 @@ public class Command<T> {
 
     private Method method = null;
 
+    private Duration cooldownLength = null;
+
     // T commandClass;
 
     public Command(@NotNull String name, @NotNull String description, Class<T> clazz, CommandManager manager) {
@@ -42,6 +47,10 @@ public class Command<T> {
         this.commandManager = manager;
         this.subCommands = new ArrayList<>();
 
+        if(clazz.isAnnotationPresent(ApplicationCommandCooldown.class)) {
+            ApplicationCommandCooldown commandCooldown = clazz.getAnnotation(ApplicationCommandCooldown.class);
+            cooldownLength = Duration.ofMillis(commandCooldown.timeUnit().toMillis(commandCooldown.time()));
+        }
 
         for(Class<?> c : clazz.getClasses()) {
             if(c.isAnnotationPresent(ApplicationCommand.class)) {

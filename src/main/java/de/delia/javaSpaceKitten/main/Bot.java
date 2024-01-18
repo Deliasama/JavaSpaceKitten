@@ -1,7 +1,6 @@
 package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
-import de.delia.javaSpaceKitten.commands.HeyCommand;
 import de.delia.javaSpaceKitten.commands.PingCommand;
 import de.delia.javaSpaceKitten.features.stars.StarsCommand;
 import de.delia.javaSpaceKitten.features.stars.StarsTable;
@@ -41,7 +40,6 @@ public class Bot {
 
         commandManager = new CommandManager(this);
 
-        commandManager.registerCommand(HeyCommand.class);
         commandManager.registerCommand(PingCommand.class);
         commandManager.registerCommand(StarsCommand.class);
         commandManager.registerCommand(TopCommand.class);
