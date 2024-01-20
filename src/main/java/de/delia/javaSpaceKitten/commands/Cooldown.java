@@ -2,7 +2,6 @@ package de.delia.javaSpaceKitten.commands;
 
 import de.delia.javaSpaceKitten.main.Main;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 
 import java.time.Duration;
@@ -29,10 +28,6 @@ public class Cooldown {
     @Column
     private Instant lastCall;
 
-    public static CooldownTable getCooldownTable() {
-        return Main.INSTANCE.cooldownTable;
-    }
-
     public Cooldown() {
 
     }
@@ -44,9 +39,13 @@ public class Cooldown {
         this.lastCall = lastcall;
     }
 
+    public static CooldownTable getCooldownTable() {
+        return Main.INSTANCE.cooldownTable;
+    }
+
     public boolean ifCooldown(Consumer<Instant> consumer, Duration duration) {
         Instant nextCallMin = lastCall.plus(duration);
-        if(nextCallMin.isBefore(Instant.now())) {
+        if (nextCallMin.isBefore(Instant.now())) {
             return false;
         } else {
             consumer.accept(nextCallMin);

@@ -2,7 +2,6 @@ package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
 import de.delia.javaSpaceKitten.commands.CooldownTable;
-import de.delia.javaSpaceKitten.commands.PingCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.StarsCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.TopCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.WorkCommand;
@@ -42,7 +41,6 @@ public class Bot {
 
         commandManager = new CommandManager(this);
 
-        commandManager.registerCommand(PingCommand.class);
         commandManager.registerCommand(StarsCommand.class);
         commandManager.registerCommand(TopCommand.class);
         commandManager.registerCommand(WorkCommand.class);
@@ -57,7 +55,7 @@ public class Bot {
 
     // Init Tables
     public void initTables() {
-        if(entityManagerFactory == null) {
+        if (entityManagerFactory == null) {
             System.out.println("Daten Bank Fehler!");
             return;
         }
@@ -71,7 +69,7 @@ public class Bot {
         String dbUsername = dotenv.get("DATABASE_USER");
         String dbPassword = dotenv.get("DATABASE_PASSWORD");
 
-        if(dbUrl == null || dbUsername == null || dbPassword == null)return null;
+        if (dbUrl == null || dbUsername == null || dbPassword == null) return null;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("javax.persistence.jdbc.url", dbUrl);

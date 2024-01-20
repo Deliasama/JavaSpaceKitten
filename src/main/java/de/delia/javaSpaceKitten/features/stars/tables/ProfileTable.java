@@ -16,7 +16,7 @@ public class ProfileTable extends Table<Profile> {
                     .setParameter(1, guildId)
                     .setParameter(2, memberId)
                     .getResultList();
-            if(profiles.isEmpty())return save(new Profile(guildId, memberId, 0, 0, 0, 0));
+            if (profiles.isEmpty()) return save(new Profile(guildId, memberId, 0, 0, 0, 0));
             return profiles.get(0);
         });
     }
@@ -32,8 +32,8 @@ public class ProfileTable extends Table<Profile> {
     public Profile update(Profile profile) {
         return getEntityManager(m -> {
             m.getTransaction().begin();
-            Profile p = m.find(Profile.class,  profile.getId());
-            if(p == null)return null;
+            Profile p = m.find(Profile.class, profile.getId());
+            if (p == null) return null;
             p.setStars(profile.getStars());
             p.setDailyStreak(profile.getDailyStreak());
             p.setWorked(profile.getWorked());

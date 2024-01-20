@@ -2,32 +2,34 @@ package de.delia.javaSpaceKitten.commands;
 
 import de.delia.javaSpaceKitten.main.Bot;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommandManager {
     public final Bot bot;
     private final Map<String, Command> commands;
     private final Map<String, Command<?>> applicationCommands;
+
     public CommandManager(Bot bot) {
         this.bot = bot;
         this.commands = new HashMap<>();
         this.applicationCommands = new HashMap<>();
     }
 
+    public static Cooldown getCooldown(String name, long guildId, long memberId) {
+        return Cooldown.getCooldownTable().get(name, guildId, memberId);
+    }
+
     public void executeCommand(String name, SlashCommandInteractionEvent event) {
-        if(applicationCommands.containsKey(name)) {
+        if (applicationCommands.containsKey(name)) {
             try {
                 applicationCommands.get(name).performCommand(event);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
@@ -38,23 +40,19 @@ public class CommandManager {
     }
 
     public <T> void registerCommand(Class<T> clazz) {
-        if(!clazz.isAnnotationPresent(ApplicationCommand.class))return;
+        if (!clazz.isAnnotationPresent(ApplicationCommand.class)) return;
         ApplicationCommand applicationCommand = clazz.getAnnotation(ApplicationCommand.class);
         String name = applicationCommand.name();
         String description = applicationCommand.description();
 
-        if(applicationCommands.containsKey(name))return;
-        applicationCommands.put(name, new Command<T>(name, description, clazz, null,this));
+        if (applicationCommands.containsKey(name)) return;
+        applicationCommands.put(name, new Command<T>(name, description, clazz, null, this));
     }
 
     public void upsertCommands(Guild guild) {
-        for(Map.Entry<String, Command<?>> entry : applicationCommands.entrySet()) {
+        for (Map.Entry<String, Command<?>> entry : applicationCommands.entrySet()) {
             entry.getValue().upsertCommand(guild);
         }
-    }
-
-    public static Cooldown getCooldown(String name, long guildId, long memberId) {
-        return Cooldown.getCooldownTable().get(name, guildId, memberId);
     }
 
     public <T> Object mapOption(OptionMapping mapping, T type) {
@@ -78,7 +76,7 @@ public class CommandManager {
     }
 
     public Object mapOption(OptionMapping mapping) {
-        if(mapping == null)return null;
+        if (mapping == null) return null;
 
         if (mapping.getType().equals(OptionType.STRING)) {
             return mapping.getAsString();

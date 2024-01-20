@@ -15,7 +15,7 @@ import java.util.List;
 public class TopCommand {
     @ApplicationCommandMethod
     public void onCommand(Bot bot, SlashCommandInteractionEvent event) {
-        if(Profile.getTable() == null) {
+        if (Profile.getTable() == null) {
             event.reply(":x: DB FEHLER!").setEphemeral(true).queue();
             return;
         }
@@ -24,18 +24,18 @@ public class TopCommand {
 
         String filter = "Sterne";
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("\uD83D\uDCAB Top 10 User (Filter: " + filter +")"+" \uD83D\uDCAB")
+                .setTitle("\uD83D\uDCAB Top 10 User (Filter: " + filter + ")" + " \uD83D\uDCAB")
                 .setColor(new Color(96, 83, 240));
 
         int ownPlace = 0;
 
-        for(int i = 0; i<topList.size(); i++) {
+        for (int i = 0; i < topList.size(); i++) {
             Profile p = topList.get(i);
-            if(p.getMemberId() == event.getMember().getIdLong()) ownPlace = (i+1);
-            if(i<10) {
-                embedBuilder.addField((i+1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(p.getMemberId())).getEffectiveName(),
-                        "⭐"+p.getStars() + "⠀⠀⠀:fire:" + p.getDailyStreak() + "⠀⠀⠀:briefcase:" + p.getWorked(), false);
-                if(i>=9 && ownPlace != 0)break;
+            if (p.getMemberId() == event.getMember().getIdLong()) ownPlace = (i + 1);
+            if (i < 10) {
+                embedBuilder.addField((i + 1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(p.getMemberId())).getEffectiveName(),
+                        ":star:" + p.getStars() + "⠀⠀⠀:fire:" + p.getDailyStreak() + "⠀⠀⠀:briefcase:" + p.getWorked(), false);
+                if (i >= 9 && ownPlace != 0) break;
             }
         }
 

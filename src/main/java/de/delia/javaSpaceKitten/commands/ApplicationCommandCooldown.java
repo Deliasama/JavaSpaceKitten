@@ -10,5 +10,8 @@ import java.util.concurrent.TimeUnit;
 @Target(ElementType.TYPE)
 public @interface ApplicationCommandCooldown {
     long time();
+
     TimeUnit timeUnit();
+
+    String cooldownMessage() default "Du musst noch warten bevor du den Command erneut auslösen kannst!";
 }

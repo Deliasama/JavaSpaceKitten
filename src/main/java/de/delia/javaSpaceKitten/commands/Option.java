@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface Option {
     String description() default "";
+
     boolean isRequired() default true;
 }
