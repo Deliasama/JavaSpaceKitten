@@ -21,7 +21,6 @@ public class TopCommand {
         }
 
         List<Profile> topList = Profile.getTable().getSortedByStars(event.getGuild().getIdLong());
-        System.out.println(topList);
 
         String filter = "Sterne";
         EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -32,11 +31,10 @@ public class TopCommand {
 
         for(int i = 0; i<topList.size(); i++) {
             Profile p = topList.get(i);
-            System.out.println(p.getStars());
             if(p.getMemberId() == event.getMember().getIdLong()) ownPlace = (i+1);
             if(i<10) {
-                embedBuilder.addField((i+1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(p.getMemberId())).getEffectiveName(), "⭐"+p.getStars(), false);
-                // TODO other infos
+                embedBuilder.addField((i+1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(p.getMemberId())).getEffectiveName(),
+                        "⭐"+p.getStars() + "⠀⠀⠀:fire:" + p.getDailyStreak() + "⠀⠀⠀:briefcase:" + p.getWorked(), false);
                 if(i>=9 && ownPlace != 0)break;
             }
         }

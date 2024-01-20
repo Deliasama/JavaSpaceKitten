@@ -35,8 +35,8 @@ public class ProfileTable extends Table<Profile> {
             Profile p = m.find(Profile.class,  profile.getId());
             if(p == null)return null;
             p.setStars(profile.getStars());
-            p.setDailyStreak(p.getDailyStreak());
-            p.setWorked(p.getWorked());
+            p.setDailyStreak(profile.getDailyStreak());
+            p.setWorked(profile.getWorked());
             p.setVotes(profile.getVotes());
             m.persist(p);
             m.getTransaction().commit();

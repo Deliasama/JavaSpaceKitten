@@ -18,7 +18,7 @@ public class CooldownTable extends Table<Cooldown> {
                     .setParameter(2, guildId)
                     .setParameter(3, memberId)
                     .getResultList();
-            if(cooldowns.isEmpty())return save(new Cooldown(commandName, guildId, memberId, Instant.now()));
+            if(cooldowns.isEmpty())return save(new Cooldown(commandName, guildId, memberId, Instant.EPOCH));
             return cooldowns.get(0);
         });
     }

@@ -54,8 +54,13 @@ public class Cooldown {
         }
     }
 
-    public void setCooldown() {
+    public Cooldown setCooldown() {
         lastCall = Instant.now();
         getCooldownTable().update(this);
+        return this;
+    }
+
+    public Instant availableIn(Duration duration) {
+        return lastCall.plus(duration);
     }
 }

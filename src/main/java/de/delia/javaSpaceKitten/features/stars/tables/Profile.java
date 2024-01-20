@@ -45,15 +45,5 @@ public class Profile {
         return Main.INSTANCE.profileTable;
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
-        getTable().update(this);
-    }
-
-    public void setDailyStreak(int dailyStreak) {
-        this.dailyStreak = dailyStreak;
-        getTable().update(this);
-    }
-
     // TODO other setters
 }
