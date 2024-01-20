@@ -1,10 +1,12 @@
 package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
+import de.delia.javaSpaceKitten.commands.CooldownTable;
 import de.delia.javaSpaceKitten.commands.PingCommand;
-import de.delia.javaSpaceKitten.features.stars.StarsCommand;
-import de.delia.javaSpaceKitten.features.stars.StarsTable;
-import de.delia.javaSpaceKitten.features.stars.TopCommand;
+import de.delia.javaSpaceKitten.features.stars.commands.StarsCommand;
+import de.delia.javaSpaceKitten.features.stars.commands.TopCommand;
+import de.delia.javaSpaceKitten.features.stars.commands.WorkCommand;
+import de.delia.javaSpaceKitten.features.stars.tables.ProfileTable;
 import de.delia.javaSpaceKitten.listener.GuildReadyEventListener;
 import de.delia.javaSpaceKitten.listener.MessageEventListener;
 import de.delia.javaSpaceKitten.listener.SlashCommandInteractionEventListener;
@@ -24,8 +26,8 @@ public class Bot {
     public final CommandManager commandManager;
     public final EntityManagerFactory entityManagerFactory;
 
-    public StarsTable starsTable;
-
+    public CooldownTable cooldownTable;
+    public ProfileTable profileTable;
 
 
     public Bot(String token) {
@@ -43,6 +45,7 @@ public class Bot {
         commandManager.registerCommand(PingCommand.class);
         commandManager.registerCommand(StarsCommand.class);
         commandManager.registerCommand(TopCommand.class);
+        commandManager.registerCommand(WorkCommand.class);
 
         jda.addEventListener(new GuildReadyEventListener());
         jda.addEventListener(new MessageEventListener());
@@ -58,7 +61,8 @@ public class Bot {
             System.out.println("Daten Bank Fehler!");
             return;
         }
-        starsTable = new StarsTable();
+        cooldownTable = new CooldownTable();
+        profileTable = new ProfileTable();
     }
 
     public EntityManagerFactory initDB() {

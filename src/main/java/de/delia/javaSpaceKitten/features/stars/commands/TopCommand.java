@@ -1,7 +1,8 @@
-package de.delia.javaSpaceKitten.features.stars;
+package de.delia.javaSpaceKitten.features.stars.commands;
 
 import de.delia.javaSpaceKitten.commands.ApplicationCommand;
 import de.delia.javaSpaceKitten.commands.ApplicationCommandMethod;
+import de.delia.javaSpaceKitten.features.stars.tables.Profile;
 import de.delia.javaSpaceKitten.main.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.UserSnowflake;
@@ -14,12 +15,12 @@ import java.util.List;
 public class TopCommand {
     @ApplicationCommandMethod
     public void onCommand(Bot bot, SlashCommandInteractionEvent event) {
-        if(Stars.getTable() == null) {
+        if(Profile.getTable() == null) {
             event.reply(":x: DB FEHLER!").setEphemeral(true).queue();
             return;
         }
 
-        List<Stars> topList = Stars.getTable().getSorted(event.getGuild().getIdLong());
+        List<Profile> topList = Profile.getTable().getSortedByStars(event.getGuild().getIdLong());
         System.out.println(topList);
 
         String filter = "Sterne";
@@ -30,11 +31,11 @@ public class TopCommand {
         int ownPlace = 0;
 
         for(int i = 0; i<topList.size(); i++) {
-            Stars s = topList.get(i);
-            System.out.println(s.getStars());
-            if(s.getMemberId() == event.getMember().getIdLong()) ownPlace = (i+1);
+            Profile p = topList.get(i);
+            System.out.println(p.getStars());
+            if(p.getMemberId() == event.getMember().getIdLong()) ownPlace = (i+1);
             if(i<10) {
-                embedBuilder.addField((i+1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(s.getMemberId())).getEffectiveName(), "⭐"+s.getStars(), false);
+                embedBuilder.addField((i+1) + ". " + event.getGuild().getMember(UserSnowflake.fromId(p.getMemberId())).getEffectiveName(), "⭐"+p.getStars(), false);
                 // TODO other infos
                 if(i>=9 && ownPlace != 0)break;
             }

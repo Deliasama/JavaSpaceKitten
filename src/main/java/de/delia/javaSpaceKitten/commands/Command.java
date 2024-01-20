@@ -25,13 +25,15 @@ public class Command<T> {
     private final String name;
     @NotNull
     private final String description;
+    @NotNull
+    private final String fullName;
 
     @NotNull
     public final Class<T> clazz;
 
     public final List<OptionData> options;
 
-    private List<Command<?>> subCommands;
+    private final List<Command<?>> subCommands;
 
     private Method method = null;
 
@@ -39,13 +41,19 @@ public class Command<T> {
 
     // T commandClass;
 
-    public Command(@NotNull String name, @NotNull String description, Class<T> clazz, CommandManager manager) {
+    public Command(@NotNull String name, @NotNull String description, Class<T> clazz, String commandParentName, CommandManager manager) {
         this.name = name;
         this.description = description;
         this.clazz = clazz;
         this.options = new ArrayList<>();
         this.commandManager = manager;
         this.subCommands = new ArrayList<>();
+        if(commandParentName == null) {
+            fullName = name;
+        } else {
+            fullName = commandParentName + "." + name;
+        }
+
 
         if(clazz.isAnnotationPresent(ApplicationCommandCooldown.class)) {
             ApplicationCommandCooldown commandCooldown = clazz.getAnnotation(ApplicationCommandCooldown.class);
@@ -58,7 +66,7 @@ public class Command<T> {
                 String n = applicationCommand.name();
                 String d = applicationCommand.description();
 
-                subCommands.add(new Command<>(n, d, c, manager));
+                subCommands.add(new Command<>(n, d, c, name, manager));
             }
         }
         for(Method m : clazz.getMethods()) {

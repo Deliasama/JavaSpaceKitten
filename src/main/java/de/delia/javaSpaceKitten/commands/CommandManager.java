@@ -44,13 +44,17 @@ public class CommandManager {
         String description = applicationCommand.description();
 
         if(applicationCommands.containsKey(name))return;
-        applicationCommands.put(name, new Command<T>(name, description, clazz, this));
+        applicationCommands.put(name, new Command<T>(name, description, clazz, null,this));
     }
 
     public void upsertCommands(Guild guild) {
         for(Map.Entry<String, Command<?>> entry : applicationCommands.entrySet()) {
             entry.getValue().upsertCommand(guild);
         }
+    }
+
+    public static Cooldown getCooldown(String name, long guildId, long memberId) {
+        return Cooldown.getCooldownTable().get(name, guildId, memberId);
     }
 
     public <T> Object mapOption(OptionMapping mapping, T type) {
