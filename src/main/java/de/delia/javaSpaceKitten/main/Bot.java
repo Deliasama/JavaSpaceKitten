@@ -2,10 +2,7 @@ package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
 import de.delia.javaSpaceKitten.commands.cooldown.CooldownTable;
-import de.delia.javaSpaceKitten.features.stars.commands.DailyCommand;
-import de.delia.javaSpaceKitten.features.stars.commands.StarsCommand;
-import de.delia.javaSpaceKitten.features.stars.commands.TopCommand;
-import de.delia.javaSpaceKitten.features.stars.commands.WorkCommand;
+import de.delia.javaSpaceKitten.features.stars.commands.*;
 import de.delia.javaSpaceKitten.features.stars.tables.ProfileTable;
 import de.delia.javaSpaceKitten.listener.GuildReadyEventListener;
 import de.delia.javaSpaceKitten.listener.MessageEventListener;
@@ -48,6 +45,7 @@ public class Bot {
         commandManager.registerCommand(TopCommand.class);
         commandManager.registerCommand(WorkCommand.class);
         commandManager.registerCommand(DailyCommand.class);
+        commandManager.registerCommand(GiveCommand.class);
 
         jda.addEventListener(new GuildReadyEventListener());
         jda.addEventListener(new MessageEventListener());
