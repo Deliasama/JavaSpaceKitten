@@ -1,9 +1,9 @@
 package de.delia.javaSpaceKitten.features.stars.commands;
 
 import de.delia.javaSpaceKitten.commands.ApplicationCommand;
-import de.delia.javaSpaceKitten.commands.ApplicationCommandCooldown;
 import de.delia.javaSpaceKitten.commands.ApplicationCommandMethod;
 import de.delia.javaSpaceKitten.commands.CommandManager;
+import de.delia.javaSpaceKitten.commands.cooldown.ApplicationCommandCooldown;
 import de.delia.javaSpaceKitten.features.stars.tables.Profile;
 import de.delia.javaSpaceKitten.main.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;

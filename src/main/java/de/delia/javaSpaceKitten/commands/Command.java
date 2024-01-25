@@ -1,5 +1,7 @@
 package de.delia.javaSpaceKitten.commands;
 
+import de.delia.javaSpaceKitten.commands.cooldown.ApplicationCommandCooldown;
+import de.delia.javaSpaceKitten.main.Main;
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -8,6 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import net.dv8tion.jda.api.utils.TimeFormat;
+import net.dv8tion.jda.api.utils.Timestamp;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -15,6 +18,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +110,7 @@ public class Command<T> {
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setAuthor(event.getMember().getEffectiveName(), null, event.getMember().getEffectiveAvatarUrl())
                         .setColor(Color.RED)
-                        .setDescription(coolDownMessage + "\n \n" + ":information_source: Versuche es in " + TimeFormat.RELATIVE.format(i) + " erneut!");
+                        .setDescription(coolDownMessage + "\n \n" + ":information_source: Versuche es in " + TimeFormat.RELATIVE.format(i.toEpochMilli()) + " erneut!");
                 event.replyEmbeds(embedBuilder.build()).setEphemeral(true).queue();
             }, cooldownLength)) return;
         }

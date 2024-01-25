@@ -1,5 +1,6 @@
 package de.delia.javaSpaceKitten.commands;
 
+import de.delia.javaSpaceKitten.commands.cooldown.Cooldown;
 import de.delia.javaSpaceKitten.main.Bot;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
@@ -102,6 +103,9 @@ public class CommandManager {
             return OptionType.STRING;
         }
         if (type.equals(Integer.class)) {
+            return OptionType.INTEGER;
+        }
+        if (type.equals(int.class)) {
             return OptionType.INTEGER;
         }
         if (type.equals(Channel.class)) {

@@ -2,6 +2,10 @@ package de.delia.javaSpaceKitten.main;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.logging.Level;
 
 public class Main {
@@ -22,5 +26,9 @@ public class Main {
 
         INSTANCE = new Bot(token);
         INSTANCE.initTables();
+    }
+
+    public static Instant getInstant() {
+        return LocalDateTime.now(ZoneId.systemDefault()).toInstant(ZoneOffset.UTC);
     }
 }

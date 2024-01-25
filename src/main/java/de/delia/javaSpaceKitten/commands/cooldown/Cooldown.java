@@ -1,11 +1,10 @@
-package de.delia.javaSpaceKitten.commands;
+package de.delia.javaSpaceKitten.commands.cooldown;
 
 import de.delia.javaSpaceKitten.main.Main;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.util.function.Consumer;
 
 @Data
@@ -54,7 +53,7 @@ public class Cooldown {
     }
 
     public Cooldown setCooldown() {
-        lastCall = Instant.now();
+        lastCall = Main.getInstant();
         getCooldownTable().update(this);
         return this;
     }

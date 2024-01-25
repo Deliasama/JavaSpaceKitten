@@ -1,7 +1,8 @@
 package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
-import de.delia.javaSpaceKitten.commands.CooldownTable;
+import de.delia.javaSpaceKitten.commands.cooldown.CooldownTable;
+import de.delia.javaSpaceKitten.features.stars.commands.DailyCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.StarsCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.TopCommand;
 import de.delia.javaSpaceKitten.features.stars.commands.WorkCommand;
@@ -15,6 +16,7 @@ import jakarta.persistence.Persistence;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.utils.TimeFormat;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.util.HashMap;
@@ -31,6 +33,7 @@ public class Bot {
 
     public Bot(String token) {
 
+
         entityManagerFactory = initDB();
 
         jda = JDABuilder.createDefault(token)
@@ -44,6 +47,7 @@ public class Bot {
         commandManager.registerCommand(StarsCommand.class);
         commandManager.registerCommand(TopCommand.class);
         commandManager.registerCommand(WorkCommand.class);
+        commandManager.registerCommand(DailyCommand.class);
 
         jda.addEventListener(new GuildReadyEventListener());
         jda.addEventListener(new MessageEventListener());

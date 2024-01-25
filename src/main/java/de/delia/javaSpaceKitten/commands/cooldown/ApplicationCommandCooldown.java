@@ -1,4 +1,4 @@
-package de.delia.javaSpaceKitten.commands;
+package de.delia.javaSpaceKitten.commands.cooldown;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

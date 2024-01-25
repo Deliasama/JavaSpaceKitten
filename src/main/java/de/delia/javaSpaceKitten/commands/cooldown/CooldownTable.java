@@ -1,5 +1,6 @@
-package de.delia.javaSpaceKitten.commands;
+package de.delia.javaSpaceKitten.commands.cooldown;
 
+import de.delia.javaSpaceKitten.commands.cooldown.Cooldown;
 import de.delia.javaSpaceKitten.database.Table;
 import de.delia.javaSpaceKitten.main.Main;
 
