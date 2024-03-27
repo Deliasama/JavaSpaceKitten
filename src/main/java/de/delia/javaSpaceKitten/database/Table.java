@@ -8,7 +8,6 @@ public class Table <T> extends CustomEntityManager {
 
     private final Class<T> entityClass;
 
-    // Konstruktor, um die Klasse von T zu erhalten
     public Table(Class<T> entityClass, EntityManagerFactory factory) {
         super(factory);
         this.entityClass = entityClass;

@@ -16,12 +16,10 @@ import java.util.Map;
 
 public class CommandManager {
     public final Bot bot;
-    private final Map<String, Command> commands;
     private final Map<String, Command<?>> applicationCommands;
 
     public CommandManager(Bot bot) {
         this.bot = bot;
-        this.commands = new HashMap<>();
         this.applicationCommands = new HashMap<>();
     }
 
@@ -56,6 +54,7 @@ public class CommandManager {
         }
     }
 
+
     public <T> Object mapOption(OptionMapping mapping, T type) {
         if (type.equals(String.class)) {
             return mapping.getAsString();
@@ -73,39 +72,34 @@ public class CommandManager {
             return mapping.getAsUser();
         }
         return null;
-
     }
 
     public Object mapOption(OptionMapping mapping) {
         if (mapping == null) return null;
 
-        if (mapping.getType().equals(OptionType.STRING)) {
-            return mapping.getAsString();
+        switch (mapping.getType()) {
+            case STRING:
+                return mapping.getAsString();
+            case INTEGER:
+                return mapping.getAsInt();
+            case CHANNEL:
+                return mapping.getAsChannel();
+            case ROLE:
+                return mapping.getAsRole();
+            case USER:
+                return mapping.getAsUser();
+            case BOOLEAN:
+                return mapping.getAsBoolean();
+            default:
+                return null;
         }
-        if (mapping.getType().equals(OptionType.INTEGER)) {
-            return mapping.getAsInt();
-        }
-        if (mapping.getType().equals(OptionType.CHANNEL)) {
-            return mapping.getAsChannel();
-        }
-        if (mapping.getType().equals(OptionType.ROLE)) {
-            return mapping.getAsRole();
-        }
-        if (mapping.getType().equals(OptionType.USER)) {
-            return mapping.getAsUser();
-        }
-        return null;
-
     }
 
     public <T> OptionType mapToOption(T type) {
         if (type.equals(String.class)) {
             return OptionType.STRING;
         }
-        if (type.equals(Integer.class)) {
-            return OptionType.INTEGER;
-        }
-        if (type.equals(int.class)) {
+        if (type.equals(Integer.class) || type.equals(int.class)) {
             return OptionType.INTEGER;
         }
         if (type.equals(Channel.class)) {
@@ -117,8 +111,9 @@ public class CommandManager {
         if (type.equals(User.class)) {
             return OptionType.USER;
         }
+        if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+            return OptionType.BOOLEAN;
+        }
         return null;
     }
-
-
 }

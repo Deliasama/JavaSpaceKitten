@@ -20,10 +20,10 @@ public class GiveCommand {
     ) {
         Member member = event.getMember();
         Guild guild = event.getGuild();
-        if(member == null || guild == null || stars == null)return;
+        if (member == null || guild == null || stars == null) return;
         Member other = guild.getMember(user);
 
-        if(stars <= 0) {
+        if (stars <= 0) {
             event.reply("Du musst mindestens ein Stern geben!").setEphemeral(true).queue();
             return;
         }
@@ -31,12 +31,12 @@ public class GiveCommand {
         Profile memberProfile = Profile.getTable().get(guild.getIdLong(), member.getIdLong());
         Profile otherProfile = Profile.getTable().get(guild.getIdLong(), other.getIdLong());
 
-        if(stars > memberProfile.getStars()) {
+        if (stars > memberProfile.getStars()) {
             event.reply("Du hast nicht so viele Sterne!").setEphemeral(true).queue();
             return;
         }
-        otherProfile.setStars(otherProfile.getStars()+stars);
-        memberProfile.setStars(memberProfile.getStars()-stars);
+        otherProfile.setStars(otherProfile.getStars() + stars);
+        memberProfile.setStars(memberProfile.getStars() - stars);
 
         Profile.getTable().update(otherProfile);
         Profile.getTable().update(memberProfile);

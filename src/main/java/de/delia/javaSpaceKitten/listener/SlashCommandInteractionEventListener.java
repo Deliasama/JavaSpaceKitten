@@ -8,7 +8,6 @@ public class SlashCommandInteractionEventListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String name = event.getName();
-        System.out.println(event.getFullCommandName());
         Main.INSTANCE.commandManager.executeCommand(name, event);
     }
 }

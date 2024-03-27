@@ -4,7 +4,8 @@ import de.delia.javaSpaceKitten.main.Main;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.function.Consumer;
 
 @Data

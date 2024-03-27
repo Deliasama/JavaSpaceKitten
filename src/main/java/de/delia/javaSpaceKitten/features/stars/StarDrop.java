@@ -4,11 +4,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
-import java.awt.Color;
-import java.sql.Time;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -27,12 +26,12 @@ public class StarDrop {
     }
 
     public static void setStarIndex(Guild guild) {
-        starIndex.put(guild.getIdLong(), random.nextInt(rangeIndex+1) + minIndex);
+        starIndex.put(guild.getIdLong(), random.nextInt(rangeIndex + 1) + minIndex);
     }
 
     public static boolean addMessage(Guild guild) {
         Integer index = starIndex.get(guild.getIdLong());
-        if(index == null) {
+        if (index == null) {
             setStarIndex(guild);
             return false;
         }
@@ -41,12 +40,12 @@ public class StarDrop {
             setStarIndex(guild);
             return true;
         }
-        starIndex.put(guild.getIdLong(), index-1);
+        starIndex.put(guild.getIdLong(), index - 1);
         return false;
     }
 
     public static void receiveMessage(MessageReceivedEvent event) {
-        if(addMessage(event.getGuild())) {
+        if (addMessage(event.getGuild())) {
             Emoji emoji = emojiList.get(random.nextInt(emojiList.size()));
 
             EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -55,8 +54,8 @@ public class StarDrop {
                     .setColor(new Color(96, 83, 240));
 
             List<Button> buttons = new ArrayList<>();
-            for(Emoji e : emojiList) {
-                if(e.equals(emoji)) {
+            for (Emoji e : emojiList) {
+                if (e.equals(emoji)) {
                     buttons.add(Button.primary("starDrop.x", e));
                 } else {
                     buttons.add(Button.primary("starDrop." + e.getName(), e));

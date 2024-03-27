@@ -12,7 +12,9 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.utils.TimeFormat;
 
 import java.awt.*;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Random;
 
 @ApplicationCommand(name = "daily", description = "Hole dir deine Tägliche Belohnung ab!")
