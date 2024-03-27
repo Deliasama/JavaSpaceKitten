@@ -1,17 +1,30 @@
 package de.delia.javaSpaceKitten.features.stars;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.awt.Color;
+import java.sql.Time;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class StarDrop {
     private final static int minIndex = 80;
     private final static int rangeIndex = 20;
     private final static Map<Long, Integer> starIndex = new HashMap<>();
     private final static Random random = new Random();
+    private static final ArrayList<Emoji> emojiList;
+
+    static {
+        emojiList = new ArrayList<>();
+        emojiList.add(Emoji.fromUnicode("⭐"));
+        emojiList.add(Emoji.fromUnicode("\uD83C\uDF1F"));
+        emojiList.add(Emoji.fromUnicode("✨"));
+    }
 
     public static void setStarIndex(Guild guild) {
         starIndex.put(guild.getIdLong(), random.nextInt(rangeIndex+1) + minIndex);
@@ -23,8 +36,9 @@ public class StarDrop {
             setStarIndex(guild);
             return false;
         }
+
         if (index <= 1) {
-            // SEND MESSAGE
+            setStarIndex(guild);
             return true;
         }
         starIndex.put(guild.getIdLong(), index-1);
@@ -33,8 +47,26 @@ public class StarDrop {
 
     public static void receiveMessage(MessageReceivedEvent event) {
         if(addMessage(event.getGuild())) {
-            // TODO: Logic
-            event.getChannel().sendMessage("AHHHHHHHH").queue();
+            Emoji emoji = emojiList.get(random.nextInt(emojiList.size()));
+
+            EmbedBuilder embedBuilder = new EmbedBuilder()
+                    .setTitle("\uD83C\uDF20 Sternschnuppe incomming! \uD83C\uDF20")
+                    .setDescription("Klicke " + emoji.getFormatted() + " an um sie zu fangen!")
+                    .setColor(new Color(96, 83, 240));
+
+            List<Button> buttons = new ArrayList<>();
+            for(Emoji e : emojiList) {
+                if(e.equals(emoji)) {
+                    buttons.add(Button.primary("starDrop.x", e));
+                } else {
+                    buttons.add(Button.primary("starDrop." + e.getName(), e));
+                }
+            }
+            event.getChannel().sendMessageEmbeds(embedBuilder.build())
+                    .setActionRow(buttons)
+                    .queue(m -> {
+                        m.editMessageComponents().setActionRow(m.getActionRows().get(0).asDisabled().getComponents()).queueAfter(15, TimeUnit.MINUTES);
+                    });
         }
     }
 }

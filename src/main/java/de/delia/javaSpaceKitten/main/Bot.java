@@ -4,6 +4,7 @@ import de.delia.javaSpaceKitten.commands.CommandManager;
 import de.delia.javaSpaceKitten.commands.cooldown.CooldownTable;
 import de.delia.javaSpaceKitten.features.stars.commands.*;
 import de.delia.javaSpaceKitten.features.stars.tables.ProfileTable;
+import de.delia.javaSpaceKitten.listener.ButtonInteractionEventListener;
 import de.delia.javaSpaceKitten.listener.GuildReadyEventListener;
 import de.delia.javaSpaceKitten.listener.MessageEventListener;
 import de.delia.javaSpaceKitten.listener.SlashCommandInteractionEventListener;
@@ -50,6 +51,7 @@ public class Bot {
         jda.addEventListener(new GuildReadyEventListener());
         jda.addEventListener(new MessageEventListener());
         jda.addEventListener(new SlashCommandInteractionEventListener());
+        jda.addEventListener(new ButtonInteractionEventListener());
 
         // register stuff
 
