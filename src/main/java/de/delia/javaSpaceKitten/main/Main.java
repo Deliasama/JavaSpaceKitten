@@ -3,14 +3,14 @@ package de.delia.javaSpaceKitten.main;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 
 public class Main {
     public static Bot INSTANCE;
     public static Dotenv DOTENV;
+    private static ScheduledExecutorService scheduler;
 
     public static void main(String[] args) {
         java.util.logging.Logger.getLogger("org.hibernate.*").setLevel(Level.SEVERE);
@@ -26,9 +26,15 @@ public class Main {
 
         INSTANCE = new Bot(token);
         INSTANCE.initTables();
+
+        scheduler = Executors.newScheduledThreadPool(1);
     }
 
     public static Instant getInstant() {
-        return LocalDateTime.now(ZoneId.systemDefault()).toInstant(ZoneOffset.UTC);
+        return Instant.now();
+    }
+
+    public static ScheduledExecutorService getScheduledExecutorService() {
+        return scheduler;
     }
 }

@@ -29,7 +29,7 @@ public class Table <T> extends CustomEntityManager {
     public void remove(T entity) {
         getEntityManager(m -> {
             m.getTransaction().begin();
-            m.remove(entity);
+            m.remove(m.contains(entity) ? entity : m.merge(entity));
             m.getTransaction().commit();
             return null;
         });

@@ -2,6 +2,9 @@ package de.delia.javaSpaceKitten.main;
 
 import de.delia.javaSpaceKitten.commands.CommandManager;
 import de.delia.javaSpaceKitten.commands.cooldown.CooldownTable;
+import de.delia.javaSpaceKitten.features.comets.commands.CometCommand;
+import de.delia.javaSpaceKitten.features.comets.tables.CometPriceTable;
+import de.delia.javaSpaceKitten.features.comets.tables.CometTable;
 import de.delia.javaSpaceKitten.features.stars.commands.*;
 import de.delia.javaSpaceKitten.features.stars.tables.ProfileTable;
 import de.delia.javaSpaceKitten.listener.ButtonInteractionEventListener;
@@ -26,7 +29,8 @@ public class Bot {
 
     public CooldownTable cooldownTable;
     public ProfileTable profileTable;
-
+    public CometTable cometTable;
+    public CometPriceTable cometPriceTable;
 
     public Bot(String token) {
 
@@ -46,6 +50,7 @@ public class Bot {
         commandManager.registerCommand(WorkCommand.class);
         commandManager.registerCommand(DailyCommand.class);
         commandManager.registerCommand(GiveCommand.class);
+        commandManager.registerCommand(CometCommand.class);
 
         jda.addEventListener(new GuildReadyEventListener());
         jda.addEventListener(new MessageEventListener());
@@ -64,6 +69,8 @@ public class Bot {
         }
         cooldownTable = new CooldownTable();
         profileTable = new ProfileTable();
+        cometTable = new CometTable();
+        cometPriceTable = new CometPriceTable();
     }
 
     public EntityManagerFactory initDB() {

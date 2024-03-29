@@ -1,10 +1,10 @@
 package de.delia.javaSpaceKitten.listener;
 
+import de.delia.javaSpaceKitten.features.comets.CometManager;
 import de.delia.javaSpaceKitten.features.stars.tables.Profile;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.awt.*;
@@ -14,6 +14,9 @@ import java.util.Random;
 public class ButtonInteractionEventListener extends ListenerAdapter {
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
+
+        // TODO: BETTER BUTTON SYSTEM!
+
         if(event.getMember() == null)return;
         Member member = event.getMember();
 
@@ -41,6 +44,24 @@ public class ButtonInteractionEventListener extends ListenerAdapter {
 
             event.reply("Du bist zu dumm!").queue();
 
+        }
+
+        if (event.getButton().getId().startsWith("comet")) {
+            if (event.getMessage().getInteraction() == null || event.getMessage().getInteraction().getUser().getIdLong() != member.getIdLong()) {
+                event.reply("Dir gehört das Menü nicht!").setEphemeral(true).queue();
+                return;
+            }
+            switch (event.getButton().getId()) {
+                case "comet.buy1":
+                    CometManager.buy(event, 1);
+                    break;
+                case "comet.buy5":
+                    CometManager.buy(event, 5);
+                    break;
+                case "comet.sell":
+                    CometManager.sellOldest(event);
+                    break;
+            }
         }
     }
 }
